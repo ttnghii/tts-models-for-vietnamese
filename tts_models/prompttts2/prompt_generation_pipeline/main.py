@@ -86,7 +86,4 @@ if __name__ == '__main__':
         output_csv_path = 'output_npl.csv'
         pd.read_csv(csv_path).to_csv(output_csv_path, index=None)
     print("Output dataset: ", output_csv_path)
-
-
-
-
+    
