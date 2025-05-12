@@ -1,8 +1,28 @@
-# vùng đồng bằng sông Hồng
-red river delta northern accent
+# vùng tây bắc - northwest territories 
+giọng dân tộc miền núi tây bắc
+giọng tây bắc
+giọng điện biên
+giọng hòa bình
+giọng lai châu
+giọng lào cai
+giọng sơn la
 
-# vùng ven biển
-northeast accent
+# vùng đồng bằng sông Hồng - red river delta northern accent
+giọng bắc phổ thông
+giọng vùng đồng bằng sông hồng
+giọng hà nội
+giọng hải phòng
+giọng bắc ninh
+giọng hải dương
+giọng hưng yên
+giọng ninh bình
 
-# vùng biên giới phía tây bắc
-northwest territories 
+# vùng đông bắc - northeast accent
+giọng đông bắc
+giọng cao bằng
+giọng tuyên quang
+giọng lạng sơn
+giọng phú thọ
+giọng bắc ninh
+giọng quảng ninh
+giọng thái nguyên
