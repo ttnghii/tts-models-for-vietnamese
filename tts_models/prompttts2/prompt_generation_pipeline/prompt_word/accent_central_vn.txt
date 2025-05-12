@@ -1,9 +1,20 @@
 # vùng bắc trung bộ
 giọng thanh hóa
-giọng nghệ tĩnh
-giọng nghệ an 
+giọng nghệ an
+giọng hà tĩnh
+giọng huế
+giọng quảng trị 
 
 # vùng duyên hải nam trung bộ
-giọng huế
+giọng miền trung phổ thông
+giọng quảng ngãi
+giọng đà nẵng
+giọng bình định
+giọng phú yên
+giọng khánh hòa
 
 # vùng tây nguyên
+giọng kon tum
+giọng gia lai
+giọng đắk lắk
+giọng lâm đồng
