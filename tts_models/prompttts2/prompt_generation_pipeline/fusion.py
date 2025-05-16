@@ -2,10 +2,9 @@
 # Licensed under the MIT License.
 
 import os
-import math
 import random
+import product
 import pandas as pd
-from itertools import product
 from tqdm import tqdm
 
 from prompt_pl import prompt_word_path, use_placeholder
@@ -17,8 +16,8 @@ def gen_num_categories(count_categories: list[int]) -> list[list[int]]:
 
 
 def fusion(
-    categories: dict[str, set[str]], 
-    csv_lambda: dict[str, int], 
+    categories: dict[str, set[str]],
+    csv_lambda: dict[str, int],
     fu_data_path: str
 ) -> None:
     '''
@@ -39,7 +38,8 @@ def fusion(
         for sub_category in categories[category].keys():
             while True:
                 try:
-                    with open(os.path.join(prompt_word_rpath, sub_category + '.txt'), 'r') as f:
+                    file_name = os.path.join(prompt_word_rpath, sub_category + '.txt')
+                    with open(file_name, 'r', encoding='utf-8') as f:
                         lines = f.readlines()
                     if len(lines) == 0:
                         continue
@@ -49,9 +49,9 @@ def fusion(
                     break
                 except:
                     continue
-    
+
     # Process the prompt words
-    normal_categories = [list(categories[key])[0] for key in categories.keys()]
+    # normal_categories = [list(categories[key])[0] for key in categories.keys()]
     count_categories = [len(categories[key].keys()) for key in categories.keys()]
     num_categories = gen_num_categories(count_categories)
 

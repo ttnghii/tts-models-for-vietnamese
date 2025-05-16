@@ -3,14 +3,21 @@
 
 import os
 import json
-import openai
 import argparse
+import openai
 import pandas as pd
 
 from prompt_pl import stage1, stage2, stage3
 from fusion import fusion
 
-def input_line(question, config_dict, config_key, sep=',', type=list):
+
+def input_line(
+    question: str,
+    config_dict: dict,
+    config_key: list,
+    sep: str = ',',
+    type: str = list
+) -> tuple:
     if config_key not in config_dict.keys():
         config_list = input(question).strip().split(sep)
         if not isinstance(config_list, type):
@@ -19,29 +26,57 @@ def input_line(question, config_dict, config_key, sep=',', type=list):
             config_dict[config_key] = config_list
     return config_dict[config_key], config_dict
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Prompt Generation')
     parser.add_argument('--config_path', type=str, default=str())
     args = parser.parse_args()
 
     config_path = args.config_path
+    config_dict = dict()
     if os.path.exists(config_path):
-        with open(config_path, 'r') as f:
+        with open(config_path, 'r', encoding='utf-8') as f:
             config_dict = json.load(f)
     else:
         config_dict = dict()
 
-    api_key, config_dict = input_line(f"Please enter api key of openai: ", config_dict, "api_key", sep=None, type=str)
+    api_key, config_dict = input_line(
+        question='Please enter api key of openai: ',
+        config_dict=config_dict,
+        config_key='api_key',
+        sep=None,
+        type=str)
     openai.api_key = api_key
 
-    categories, config_dict = input_line(f"Please enter all attributes separated by commas: ", config_dict, "attributes")
+    categories, config_dict = input_line(
+        question='Please enter all attributes separated by commas: ',
+        config_dict=config_dict,
+        config_key='attributes'
+    )
     categories = {category: dict() for category in categories}
-    for attribute in config_dict["attributes"]:
-        attribute_classes, config_dict = input_line(f"Please enter the class of attribute {attribute} separated by commas and the first one is the default class: ", config_dict, attribute)
-        categories[attribute] = {f'{attribute}_{attribute_class}': set() for attribute_class in attribute_classes}
+    for attribute in config_dict['attributes']:
+        attribute_classes, config_dict = input_line(
+            question=f'Please enter the class of attribute {attribute} separated by commas and the first one is the default class: ',
+            config_dict=config_dict,
+            config_key=attribute
+        )
+        categories[attribute] = {
+            f'{attribute}_{attribute_class}': set() for attribute_class in attribute_classes
+        }
 
-    template_num, config_dict = input_line(f"Please enter the minimum number of sentences for each attribute: ", config_dict, "template_num", sep=None, type=int)
-    keywords_num, config_dict = input_line(f"Please enter the minimum number of keywords for each class: ", config_dict, "keywords_num", sep=None, type=int)
+    template_num, config_dict = input_line(
+        question='Please enter the minimum number of sentences for each attribute: ',
+        config_dict=config_dict,
+        config_key='template_num',
+        sep=None,
+        type=int
+    )
+    keywords_num, config_dict = input_line(
+        'Please enter the minimum number of keywords for each class: ', 
+        config_dict, 
+        "keywords_num",
+        sep=None,
+        type=int)
     turns, config_dict = input_line(f"Please enter how many turns you want to generate: ", config_dict,  "turns", sep=None, type=int)
     use_placeholder, config_dict = input_line(f"Please enter whether you want to use placeholder [yes/no]: ", config_dict, "use_placeholder", sep=None, type=str)
     if use_placeholder == 'yes':
@@ -54,15 +89,17 @@ if __name__ == '__main__':
     else:
         raise ValueError("You must choose from yes and no.")
     sentences_type, config_dict = input_line(f"Please enter what the type of sentences you want to generate [sentence/phrase/word]: ", config_dict, "sentences_type", sep=None, type=str)
-    if sentences_type == 'sentence':
-        sentences_type = -1
-    elif sentences_type == 'phrase':
-        sentences_type = -2
-    elif sentences_type == 'word':
-        sentences_type = -3
-    else:
-        raise ValueError("You must choose from sentence, phrase and word.") # [mulword] 0[mulsentence] -1[sentenc] -2[phrase] -3[word]
-
+    
+    match sentences_type:
+        case 'sentence':
+            sentences_type = -1
+        case'phrase':
+            sentences_type = -2
+        case'word':
+            sentences_type = -3
+        case _:
+            raise ValueError("You must choose from sentence, phrase and word.") # [mulword] 0[mulsentence] -1[sentenc] -2[phrase] -3[word]
+    
     if os.path.exists(config_path):
         with open(config_path, 'w') as f:
             json.dump(config_dict, f, indent=4)
